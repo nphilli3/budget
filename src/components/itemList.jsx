@@ -14,7 +14,7 @@ export default class GetCostList extends React.Component {
     	super(props);
     	this.state = {
     		collapse:false,
-    		costs: []
+    		cost: []
     	};
 
     	this.getCost = this.getCost.bind(this)
@@ -24,39 +24,35 @@ export default class GetCostList extends React.Component {
 
   	}
   	toggle() {
-    	this.setState({ collapse: !this.state.collapse });
 
+    	this.setState({ collapse: !this.state.collapse });
   }
 
 	getCost(event){
-
-	  	// $.get('/cost').done(function(data){
-      var data = {rows:[
-        {id: 1, itemName:'car', itemCost:439},
-          {id: 2, itemName:'car2', itemCost:500},
-          {id: 3, itemName:'Cabelas', itemCost:400},
-          {id: 4, itemName:'CapitalOne', itemCost:200},
-          {id: 5, itemName:'Collect', itemCost:100}
-        ]
-      }
-	  		this.setState({
-	  			costs:data.rows
-	  		})
-			this.costList(data)
+		$.get('/item').done(function(data){
+	  	this.setState({
+	  		cost:data.rows
+	  	})
+			this.costList()
 			this.toggle()
-    }//.bind(this))
-    // }
+    	}.bind(this))
+    }
 
 	costList(){
 
-		const list = this.state.costs.map((row)=>{
-			var title = row.itemName + ' ' + row.itemCost
+
+		if(!this.state.cost){return}
+
+		const list = this.state.cost.map((row)=>{
+			var title = row.itemName
 
 				return (
 					<div key={row.id}>
-						<MyDropdown ref={row.id} label={title}>
+					<MyCard ref={row.id} cardTitle ={title}>
+
 							<CostForm row={row}></CostForm>
-						</MyDropdown>
+
+						</MyCard>
 
 					</div>
 				)
@@ -70,12 +66,13 @@ export default class GetCostList extends React.Component {
 
     render(){
     	return(
-			<div>
+			<MyCard>
     			<Button onClick={this.getCost}>Cost list</Button>
-				<MyCard>
+
+				<Collapse isOpen={this.state.collapse}>
 					{ this.costList() }
+				</Collapse>
 				</MyCard>
-			</div>
     	)
     }
 }

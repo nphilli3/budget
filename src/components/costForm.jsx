@@ -3,7 +3,7 @@ import {Form, FormGroup, Input, Button} from 'reactstrap'
 import $ from 'jquery'
 import ReactDOM from 'react-dom'
 
-export default class AgentForm extends React.Component {
+export default class ItemForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,7 +31,7 @@ export default class AgentForm extends React.Component {
       return
     }
     var id = this.props.row.id
-    var url = '/agent/' + id
+    var url = '/item/' + id
     $.ajax({
       url: url,
       headers: {},
@@ -40,11 +40,6 @@ export default class AgentForm extends React.Component {
         console.log('succes: '+ response.toString());
       }
     })
-
-    // const newState = this.state
-    // const index = newState
-    // var agentForm1 = ReactDOM.findDOMNode(deleteRef)
-
   }
 
 
@@ -61,43 +56,17 @@ export default class AgentForm extends React.Component {
   handelSubmit(event) {
 
     var groupName = this.state.group
-  	var url = '/agent'
+  	var url = '/item'
     var formData = {
-    	firstName: this.state.firstName,
-  		lastName: this.state.lastName,
-  		screenName: this.state.firstName,
-  		loginId: this.state.email,
-  		password: 'Zulily@123',
-  		emailAddress: this.state.email,
-  		department: 'service',
-      group: this.state.groups[groupName]
-  		// groups: {
-    //     link:[{
-    //       rel:"group",
-    //       href: "/system/ws/v12/administration/group/" + groups[groupName]
-    //     }]
-    //   }
+    	itemName: this.state.itemName,
+  		itemCost: this.state.itemCost,
   	}
   	$.post(url, formData).done(function(data){
   		console.log(formData);
   	})
-    // $.ajax({
-    //   url: url,
-    //   headers: {
-    //     'X-egain-session':'c27bc3ef-1a37-4f29-9cee-efc4e12a9b92',
-    //     'Content-Type':'application/json',
-    //     'X-Frame-Options': 'SAMEORIGIN'
-    //   },
-    //   method: 'POST',
-    //   dataType: 'json',
-    //   data: formData,
-    //   success: function(data){
-    //     console.log('succes: '+data);
-    //   }
-    // });
     event.preventDefault()
-    var agentForm1 = ReactDOM.findDOMNode(this.refs.agentForm1)
-    agentForm1.reset()
+    var itemForm = ReactDOM.findDOMNode(this.refs.itemForm)
+    itemForm.reset()
     return false
   }
 
@@ -121,20 +90,20 @@ export default class AgentForm extends React.Component {
 
     return (
 	    <div>
-	      <Form action='/addItem' ref="agentForm1">
+	      <Form action='/addItem' ref="itemForm">
 	      	<FormGroup>
 	      		<Input
               defaultValue={item.itemName}
               onChange= {this.handleInputChange}
   	      		type="text"
   	      		name="itemName"
-  	      		placeholder="First Name"/>
+  	      		placeholder="Item"/>
               <Input
                 defaultValue={item.itemCost}
                 onChange= {this.handleInputChange}
                 type="number"
                 name="itemCost"
-                placeholder="First Name"/>
+                placeholder="Cost"/>
 
 
 	      		<Button
