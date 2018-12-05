@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, FormGroup, Input, Button} from 'reactstrap'
+import {Form, FormGroup, Input, Button, Label, Row, Col} from 'reactstrap'
 import $ from 'jquery'
 import ReactDOM from 'react-dom'
 
@@ -28,24 +28,6 @@ export default class loanCalc extends React.Component {
   }
 
   caclulate(event) {
-
-    var groupName = this.state.group
-  	var url = '/item'
-    var formData = {
-    	itemName: this.state.itemName,
-  		itemCost: this.state.itemCost,
-  	}
-  	$.post(url, formData).done(function(data){
-  		console.log(formData);
-  	})
-    event.preventDefault()
-    var itemForm = ReactDOM.findDOMNode(this.refs.itemForm)
-    itemForm.reset()
-    return false
-  }
-
-  handelUpdate(event){
-
   }
 
   render() {
@@ -53,26 +35,41 @@ export default class loanCalc extends React.Component {
 	    <div>
 	      <Form action='/addItem' ref="itemForm">
 	      	<FormGroup>
-	      		<Input
-              defaultValue={item.loanAmount}
-              onChange= {this.handleInputChange}
-  	      		type="float"
-  	      		name="loanAmount"
-  	      		placeholder="Item"/>
-            <Input
-              defaultValue={item.loanIntrest}
-              onChange= {this.handleInputChange}
-              type="float"
-              name="loanIntrest"
-              placeholder="Cost"/>
-            <Input
-              defaultValue={item.loanTerm}
-              onChange= {this.handleInputChange}
-              type="float"
-              name="loanTerm"
-              placeholder="Cost"/>
-	      		<Button
-              id = {"submit " + item.id}
+            <Row>
+              <Label sm={2}>Loan Amount: </Label>
+              <Col sm={10}>
+    	      		<Input
+                defaultValue={this.state.loanAmount}
+                onChange= {this.handleInputChange}
+      	      	type="float"
+      	      	name="loanAmount"
+      	      	placeholder="Item"/>
+              </Col>
+            </Row>
+            <Row>
+              <Label sm={2}>APR: </Label>
+              <Col sm={10}>
+                <Input
+                defaultValue={this.state.loanIntrest}
+                onChange= {this.handleInputChange}
+                type="float"
+                name="loanIntrest"
+                placeholder="Cost"/>
+              </Col>
+            </Row>
+            <Row>
+              <Label sm={2}>Loan Term: </Label>
+              <Col sm={10}>
+                <Input
+                defaultValue={this.state.loanTerm}
+                onChange= {this.handleInputChange}
+                type="float"
+                name="loanTerm"
+                placeholder="Cost"/>
+              </Col>
+            </Row>
+            <Button
+
               style ={{display:this.state.showSubmit}}
               onClick={this.caclulate}>
               Calculate
